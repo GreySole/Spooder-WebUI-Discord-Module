@@ -2,6 +2,7 @@ import { DiscordIcon } from '../../../ui/common/icons/icons';
 import type { ModuleDefinition } from '../../types';
 import { discordApi } from './discordSlice';
 import DiscordTab from './discordTab/DiscordTab';
+import FormDiscordChannelSelect from './components/FormDiscordChannelSelect';
 
 const DiscordModule: ModuleDefinition = {
   key: 'discord',
@@ -12,6 +13,9 @@ const DiscordModule: ModuleDefinition = {
   },
   Component: DiscordTab,
   api: discordApi,
+  fieldRenderers: {
+    channelSelect: FormDiscordChannelSelect,
+  },
 };
 
 export default DiscordModule;

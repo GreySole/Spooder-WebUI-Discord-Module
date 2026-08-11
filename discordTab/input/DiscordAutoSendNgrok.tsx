@@ -1,5 +1,5 @@
 import React from 'react';
-import FormDiscordChannelSelect from '../../../../../ui/common/input/form/FormDiscordChannelSelect';
+import FormDiscordChannelSelect from '../../components/FormDiscordChannelSelect';
 
 interface DiscordAutoSendNgrokProps {
   formKey: string;

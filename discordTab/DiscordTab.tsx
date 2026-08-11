@@ -2,7 +2,7 @@ import {
     Box,
     SaveButton,
     Stack
-} from '@greysole/spooder-component-library';
+} from '@spooder/webui-component-library';
 import React from 'react';
 import PageCircleLoader from '../../../../ui/common/input/general/PageCircleLoader';
 import useDiscord from '../useDiscord';
