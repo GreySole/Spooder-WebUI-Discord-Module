@@ -14,7 +14,8 @@ const DiscordModule: ModuleDefinition = {
   Component: DiscordTab,
   api: discordApi,
   fieldRenderers: {
-    channelSelect: FormDiscordChannelSelect,
+    // Height covers the label plus the stacked guild and channel dropdowns.
+    channelSelect: { component: FormDiscordChannelSelect, height: 84 },
   },
 };
 
