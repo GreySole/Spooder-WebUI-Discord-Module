@@ -1,7 +1,7 @@
 import React from 'react';
 import useDiscord from '../useDiscord';
-import { SelectOption } from '../../../../ui/Types';
 import { SelectDropdown } from '@spooder/webui-component-library';
+import { channelOptions, guildOptions } from './discordPickerOptions';
 
 interface DiscordChannelPair {
   destGuild: string;
@@ -34,25 +34,18 @@ export default function DiscordChannelSelect(props: DiscordChannelSelectProps) {
     return null;
   }
 
-  const guildOptions: SelectOption[] = [{ value: '', label: 'Select Guild' }];
-  const channelOptions: SelectOption[] = [{ value: '', label: 'Select Channel' }];
-
   if (Object.keys(guilds).length > 0) {
-    for (let d in guilds) {
-      guildOptions.push({ value: d, label: guilds[d].name });
-    }
-
-    if (destGuild != '' && guilds[destGuild]) {
-      for (let c in guilds[destGuild].channels) {
-        channelOptions.push({ value: c, label: guilds[destGuild].channels[c].name });
-      }
-    }
-
     return (
       <label>
         {label}
-        <SelectDropdown options={guildOptions} value={destGuild} onChange={onGuildChange} />
-        <SelectDropdown options={channelOptions} value={destChannel} onChange={onChannelChange} />
+        <SelectDropdown options={guildOptions(guilds)} value={destGuild} onChange={onGuildChange} />
+        <SelectDropdown
+          // Text channels only: this picker names a message destination, and a category or a
+          // voice channel is not one.
+          options={channelOptions(guilds, destGuild, ['text'])}
+          value={destChannel}
+          onChange={onChannelChange}
+        />
       </label>
     );
   } else {

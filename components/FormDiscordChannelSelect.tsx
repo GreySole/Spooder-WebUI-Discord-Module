@@ -1,51 +1,54 @@
-import { FormSelectDropdown } from '@spooder/webui-component-library';
+import React from 'react';
 import { useFormContext } from 'react-hook-form';
+import { NodeFieldDef } from '../../../../ui/Types';
+import { channelOptions, guildOptions } from './discordPickerOptions';
+import FormDiscordIdSelect from './FormDiscordIdSelect';
 import useDiscord from '../useDiscord';
-import { SelectOption } from '../../../../ui/Types';
 
 interface FormDiscordChannelSelectProps {
   formKey: string;
   label?: string;
+  // Present when this renders as a node's custom field; absent for a plugin setting of
+  // `type: 'discord'`, which has no field def behind it.
+  field?: NodeFieldDef;
 }
 
+// A guild and one of its channels, stored together as `{ destguild, destchannel }` under a
+// single form key. Kept distinct from the single-value pickers in DiscordNodePickers because
+// its value is one object rather than two string ports - the shape `Send To Channel` and the
+// `discord` plugin input already store.
 export default function FormDiscordChannelSelect(props: FormDiscordChannelSelectProps) {
-  const { formKey, label } = props;
+  const { formKey, label, field } = props;
   const { getDiscordGuilds } = useDiscord();
   const { data: guilds, isLoading, error } = getDiscordGuilds();
   const { watch } = useFormContext();
-  const destGuild = watch(`${formKey}.destguild`, '');
+  const destGuild = watch(`${formKey}.destguild`, '') ?? '';
 
-  if (isLoading || error) {
+  if (error) {
     return null;
   }
 
-  let guildOptions: SelectOption[] = [{ value: '', label: 'Select Guild' }];
-  let channelOptions: SelectOption[] = [{ value: '', label: 'Select Channel' }];
+  // Defaults to text channels rather than everything: this widget's only consumers send
+  // messages, and a category or a voice channel is not something sendToChannel can post to.
+  const channelTypes = field?.options?.channelTypes ?? ['text'];
 
-  if (Object.keys(guilds).length > 0) {
-    for (let d in guilds) {
-      guildOptions.push({ value: d, label: guilds[d].name });
-    }
-
-    if (destGuild != '' && guilds[destGuild] != null) {
-      for (let c in guilds[destGuild].channels) {
-        channelOptions.push({ value: c, label: guilds[destGuild].channels[c].name });
-      }
-    }
-
-    return (
-      <label>
-        {label}
-        <FormSelectDropdown formKey={`${formKey}.destguild`} options={guildOptions} />
-        <FormSelectDropdown formKey={`${formKey}.destchannel`} options={channelOptions} />
-      </label>
-    );
-  } else {
-    return (
-      <label>
-        {label}
-        No guilds found. Invite your Spooder to a Discord server to assign a channel.
-      </label>
-    );
-  }
+  return (
+    <div>
+      {label ? <label>{label}</label> : null}
+      <FormDiscordIdSelect
+        formKey={`${formKey}.destguild`}
+        options={guildOptions(guilds)}
+        isLoading={isLoading}
+        emptyMessage='No guilds found. Invite your Spooder to a Discord server to assign a channel.'
+        manualPlaceholder='Guild ID'
+      />
+      <FormDiscordIdSelect
+        formKey={`${formKey}.destchannel`}
+        options={channelOptions(guilds, destGuild, channelTypes)}
+        isLoading={isLoading}
+        emptyMessage={destGuild ? 'That guild has no text channels.' : 'Select a guild first.'}
+        manualPlaceholder='Channel ID'
+      />
+    </div>
+  );
 }
