@@ -48,7 +48,8 @@ function collectEmojis(guilds: KeyedObject | undefined, guildId: string): EmojiE
   return entries;
 }
 
-// Picks the emoji a Reaction Added node listens for: a field holding the value, and a button
+// Picks an emoji for the nodes that deal in one - the emoji a Reaction Added trigger listens
+// for, the emoji a React To Message action applies: a field holding the value, and a button
 // that opens the browser for it.
 //
 // Custom emoji are shown as themselves - a name in a list tells you nothing about which :pepe:
@@ -129,7 +130,12 @@ export default function FormDiscordEmojiSelect(props: CustomFieldRendererProps) 
       {label ? <label>{label}</label> : null}
       <div ref={anchorRef} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
         <div style={{ flex: '1 1 auto', minWidth: 0 }}>
-          <FormTextInput formKey={formKey} placeholder='Any emoji' />
+          <FormTextInput
+            formKey={formKey}
+            // 'Any emoji' is right for a trigger's optional filter, but an action needs one
+            // chosen - so the field the picker feeds says which it is.
+            placeholder={field.options?.placeholder ?? 'Any emoji'}
+          />
         </div>
         <Button
           icon={faFaceSmile}
