@@ -4,7 +4,7 @@ import {
     Stack
 } from '@spooder/webui-component-library';
 import React from 'react';
-import PageCircleLoader from '../../../../ui/common/input/general/PageCircleLoader';
+import { PageCircleLoader } from '@spooder/webui-module-sdk';
 import useDiscord from '../useDiscord';
 import DiscordTabFormContextProvider from './context/DiscordTabFormContext';
 import DiscordAuthTutorial from './DiscordAuthTutorial';

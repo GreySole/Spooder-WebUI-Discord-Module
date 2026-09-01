@@ -1,5 +1,5 @@
-import { DiscordIcon } from '../../../ui/common/icons/icons';
-import type { ModuleDefinition } from '../../types';
+import { faDiscord } from '@fortawesome/free-brands-svg-icons';
+import type { ModuleDefinition } from '@spooder/webui-module-sdk';
 import { discordApi } from './discordSlice';
 import DiscordTab from './discordTab/DiscordTab';
 import DiscordChannelSelect from './components/DiscordChannelSelect';
@@ -15,7 +15,7 @@ const DiscordModule: ModuleDefinition = {
   key: 'discord',
   tabConfig: {
     label: 'Discord',
-    icon: DiscordIcon,
+    icon: faDiscord,
     parentTab: 'module',
   },
   Component: DiscordTab,

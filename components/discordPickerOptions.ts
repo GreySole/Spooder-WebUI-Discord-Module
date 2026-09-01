@@ -1,5 +1,5 @@
 import type React from 'react';
-import { KeyedObject, SelectOption } from '../../../../ui/Types';
+import { KeyedObject, SelectOption } from '@spooder/webui-module-sdk';
 
 // Shared by every Discord field that puts a button beside its input - the manual-entry toggle
 // on the id pickers, the emoji browser's opener.

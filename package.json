@@ -4,10 +4,13 @@
   "private": true,
   "description": "Discord integration module for the Spooder webui. Consumed as source via git submodule, not published to npm.",
   "peerDependencies": {
+    "@fortawesome/free-brands-svg-icons": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
+    "@reduxjs/toolkit": "^2.2.5",
+    "@spooder/webui-component-library": "^0.2.0",
+    "@spooder/webui-module-sdk": "^0.6.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-hook-form": "^7.52.0",
-    "@reduxjs/toolkit": "^2.2.5",
-    "@spooder/webui-component-library": "^0.2.0"
+    "react-hook-form": "^7.52.0"
   }
 }

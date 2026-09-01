@@ -7,7 +7,7 @@ import {
 } from '@spooder/webui-component-library';
 import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { SelectOption } from '../../../../ui/Types';
+import { SelectOption } from '@spooder/webui-module-sdk';
 import { FIELD_BUTTON_ICON_SIZE, FIELD_BUTTON_STYLE } from './discordPickerOptions';
 
 interface FormDiscordIdSelectProps {

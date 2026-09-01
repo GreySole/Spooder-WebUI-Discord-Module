@@ -1,6 +1,6 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
-import { CustomFieldRendererProps } from '../../../../ui/tabs/eventsTab/eventNodes/customFieldRenderer';
+import { CustomFieldRendererProps } from '@spooder/webui-module-sdk';
 import useDiscord from '../useDiscord';
 import { channelOptions, guildOptions, roleOptions, siblingFormKey } from './discordPickerOptions';
 import FormDiscordIdSelect from './FormDiscordIdSelect';

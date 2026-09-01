@@ -3,9 +3,9 @@ import { Button, FormTextInput } from '@spooder/webui-component-library';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useFormContext } from 'react-hook-form';
-import { CustomFieldRendererProps } from '../../../../ui/tabs/eventsTab/eventNodes/customFieldRenderer';
-import { panelStyle } from '../../../../ui/tabs/eventsTab/eventNodes/palette/CascadeMenu';
-import { KeyedObject } from '../../../../ui/Types';
+import { CustomFieldRendererProps } from '@spooder/webui-module-sdk';
+import { panelStyle } from '@spooder/webui-module-sdk';
+import { KeyedObject } from '@spooder/webui-module-sdk';
 import useDiscord from '../useDiscord';
 import { FIELD_BUTTON_ICON_SIZE, FIELD_BUTTON_STYLE, siblingFormKey } from './discordPickerOptions';
 

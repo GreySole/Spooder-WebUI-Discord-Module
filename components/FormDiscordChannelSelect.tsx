@@ -1,6 +1,6 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
-import { NodeFieldDef } from '../../../../ui/Types';
+import { NodeFieldDef } from '@spooder/webui-module-sdk';
 import { channelOptions, guildOptions } from './discordPickerOptions';
 import FormDiscordIdSelect from './FormDiscordIdSelect';
 import useDiscord from '../useDiscord';
