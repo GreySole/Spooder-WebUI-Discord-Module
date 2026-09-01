@@ -1,0 +1,72 @@
+name: Build and Release
+
+# This module builds on its own, against the published @spooder/webui-module-sdk rather than
+# against a checkout of the WebUI. A tagged build publishes the federated output as a release
+# asset, which is what Spooder downloads and serves - no toolchain on the machine running it.
+
+on:
+  push:
+    branches:
+      - '**'
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: read
+
+jobs:
+  # Every branch push - proves the module still typechecks and builds. Publishes nothing.
+  build:
+    if: github.ref_type == 'branch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+  # Version tags only - builds, zips the federated output, and publishes a GitHub Release.
+  build-and-release:
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Package the federated output
+        # remoteEntry.js, mf-manifest.json and the chunks, zipped from inside dist so they
+        # unpack straight into the directory Spooder serves the remote from.
+        run: |
+          cd dist
+          zip -r "../spooder-webui-discord-module-${{ github.ref_name }}.zip" .
+
+      - name: Create release
+        run: |
+          gh release create "${{ github.ref_name }}" \
+            "spooder-webui-discord-module-${{ github.ref_name }}.zip" \
+            --title "${{ github.ref_name }}" \
+            --generate-notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
